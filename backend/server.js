@@ -1,7 +1,9 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
+app.use(cors());
 const port = 1337;
 
 const mysql = require('mysql');
@@ -29,9 +31,8 @@ app.get('/list', (req, res) => {
 
     db.query("SELECT * FROM cashflow", (error, results) => {
         console.log(results);
-    })
-
-    res.send("hello");
+        res.send(results);
+    });
 });
 
 app.post('/add', (req, res) => {
