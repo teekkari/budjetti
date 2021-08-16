@@ -23,7 +23,10 @@ class ExpenseList extends React.Component {
         const output = [];
 
         this.state.expenses.forEach( (value, index) => {
-            output.push(<div className="expense-item">{value.amount}</div>)
+            var sign = "-";
+            if (value.amount >= 0) sign = "+";
+
+            output.push(<div className="expense-item">{sign + value.amount}</div>)
         })
 
         return output;
