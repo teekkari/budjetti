@@ -2,8 +2,13 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+
 const app = express();
+
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const port = 1337;
 
 const mysql = require('mysql');
@@ -30,13 +35,27 @@ db.connect();
 app.get('/list', (req, res) => {
 
     db.query("SELECT * FROM cashflow", (error, results) => {
-        console.log(results);
+        //console.log(results);
         res.send(results);
     });
 });
 
 app.post('/add', (req, res) => {
-    res.send();
+    let amount = 0;
+
+    try {
+        amount = parseFloat(req.body.amount).toFixed(2);
+    } catch(e) {
+        console.log(e);
+        res.sendStatus(400);
+        return;
+    }
+
+    db.query("INSERT INTO cashflow (amount) VALUES (" + amount + ");", (error, results) => {
+        const insertId = results.insertId;
+        res.send({id: insertId});
+        return;
+    });
 })
 
 app.post('/remove', (req, res) => {
