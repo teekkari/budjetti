@@ -9,21 +9,29 @@ class AddExpense extends React.Component {
 
         this.state = {
             amount: '0',
+            isIncome: false,
         };
 
     }
 
-    handleChange = (event) => {
+    handleAmountChange = (event) => {
         this.setState({
             amount: event.target.value
         })
     }
 
+    handleIncomeCheckboxChange = (event) => {
+        this.setState({
+            isIncome: event.target.checked
+        });
+    }
+
     handleSubmit = (event) => {
         const payload = {};
 
-        payload.amount = this.state.amount;
-        
+        const sign = this.state.isIncome ? '+' : '-';
+        payload.amount = sign + this.state.amount;
+
         axios.post("http://localhost:1337/add", payload).then( (res) => {
             console.log(res);
         }).catch( (err) => {
@@ -33,16 +41,16 @@ class AddExpense extends React.Component {
 
     render() {
         return (
-            <form class="add-expense" onSubmit={this.handleSubmit}>
+            <form className="add-expense" onSubmit={this.handleSubmit}>
                 <label>Amount: 
-                    <input type="number" value={this.state.amount} onChange={this.handleChange} step="0.01" />
+                    <input type="number" value={this.state.amount} onChange={this.handleAmountChange} step="0.01" />
                 </label>
 
                 <br/>
 
                 <label>
                     Income
-                    <input type="checkbox" />
+                    <input type="checkbox" onChange={this.handleIncomeCheckboxChange} />
                 </label>
 
                 <br/>
