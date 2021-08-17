@@ -8,22 +8,22 @@ class ExpenseList extends React.Component {
         this.state = {
             expenses: [],
         };
+    }
 
-
+    componentDidMount() {
         axios.get('http://localhost:1337/list').then((res) => {
             console.log(res);
             this.setState({ expenses: res.data });
         }).catch((err)=> {
             alert(err);
         })
-
     }
 
     renderExpenses() {
         const output = [];
 
         this.state.expenses.forEach( (value, index) => {
-            var sign = "-";
+            var sign = "";
             if (value.amount >= 0) sign = "+";
 
             output.push(<div className="expense-item">{sign + value.amount}</div>)
