@@ -59,6 +59,22 @@ app.post('/add', (req, res) => {
 })
 
 app.post('/remove', (req, res) => {
+
+
+    let id = null;
+
+    try {
+        id = parseInt(req.body.id);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(400);
+        return;
+    }
+
+    db.query("DELETE FROM cashflow WHERE id = " + id, (error, results) => {
+        
+    });
+
     res.send();
 })
 
