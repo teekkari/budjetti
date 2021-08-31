@@ -1,6 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 
+import Expense from './Expense.js';
+
+import './ExpenseList.css';
+
 class ExpenseList extends React.Component {
     constructor(props) {
         super(props);
@@ -26,7 +30,9 @@ class ExpenseList extends React.Component {
             var sign = "";
             if (value.amount >= 0) sign = "+";
 
-            output.push(<div className="expense-item">{sign + value.amount}</div>)
+            output.push(
+                <Expense key={value.id} id={value.id} amount={value.amount} />
+            );
         })
 
         return output;
